@@ -157,20 +157,24 @@ INSERT INTO dept_table VALUES (3, 'python3');
 INSERT INTO insur_table VALUES (1, 'LIC');
 INSERT INTO insur_table VALUES (2, 'ICICI');
 
+-- 1
 -- select emp.name, dep.dept_name, ins.insur_name from emp_table emp
 -- inner join dept_table dep on emp.dept_id = dep.dept_id
 -- inner join insur_table ins on emp.insur_id = ins.insur_id;
 
+-- 2
 -- select emp.name, dep.dept_name from emp_table emp
 -- inner join dept_table dep on emp.dept_id = dep.dept_id
 -- where emp.emp_id in (select emp_id from emp_off_table
 -- EOT inner join office_table OT on EOT.off_id = OT.off_id
 -- where place = "madhapur");
 
+-- 3
 -- select count(EOT.off_id), OT.place from emp_off_table EOT
 -- inner join office_table OT on EOT.off_id = OT.off_id
 -- group by EOT.off_id
 
+-- 4
 -- select emp.name, ins.insur_name, empInfo.salary
 -- from emp_table emp
 -- inner join insur_table ins on emp.insur_id = ins.insur_id
@@ -180,6 +184,13 @@ INSERT INTO insur_table VALUES (2, 'ICICI');
 -- order by salary desc limit 3
 -- ) order by salary limit 1)
 
+-- 5
+-- SELECT AVG(SALARY )  FROM (select * from emp_table JOIN dept_table ON emp_table.dept_id=dept_table.dept_id
+-- JOIN emp_info_table ON emp_table.emp_info=emp_info_table.id
+-- JOIN (SELECT * FROM emp_off_table JOIN office_table ON emp_off_table.off_id=office_table.off_id) AS TJ
+-- ON emp_table.emp_id=TJ.emp_id) where place ="madhapur" GROUP BY dept_id
+
+-- 6
 -- select sum(EOT.salary) from emp_table emp
 -- inner join emp_info_table EOT on emp.emp_info = EOT.id
 -- where EOT.doj > '2022-01-02' and emp.emp_id in (
@@ -187,6 +198,7 @@ INSERT INTO insur_table VALUES (2, 'ICICI');
 -- inner join office_table OT on EOT.off_id = OT.off_id where OT.place = "madhapur"
 -- )
 
+-- 7
 -- select emp.name, dep.dept_name, EOT.salary from emp_table emp
 -- inner join emp_info_table EOT on emp.emp_info = EOT.id
 -- inner join insur_table ins on emp.insur_id = ins.insur_id
@@ -196,20 +208,29 @@ INSERT INTO insur_table VALUES (2, 'ICICI');
 -- inner join office_table OT on EOT.off_id = OT.off_id where OT.place = "madhapur"
 -- )
 
+-- 8
 -- select emp.name, copyemp.name from emp_table emp
 -- inner join emp_table copyemp where emp.immediate_head_id = copyemp.emp_id
+-- select emp.name, (select name from emp_table where emp_id = emp.immediate_head_id) from emp_table emp
 
--- select emp.name, dep.dept_name, copyemp.name from emp_table emp
--- inner join dept_table dep on emp.dept_id = dep.dept_id
--- inner join emp_table copyemp where emp.immediate_head_id = copyemp.emp_id
+-- 9
+-- select name,dt.dept_name ,(select name from emp_table
+-- where emp_id=emp.immediate_head_id), (select di.dept_name from emp_table empp
+-- inner join dept_table di on empp.dept_id = di.dept_id
+-- where emp_id = emp.immediate_head_id) from emp_table emp
+-- inner join dept_table dt on emp.dept_id = dt.dept_id
 
-select avg(EIT.salary),  from emp_table emp
-inner join emp_info_table EIT
-on emp.emp_id = EIT.id
-group by dept_id
-
-
-
+-- 10
+-- select emp.name from emp_table emp 
+-- inner join emp_info_table EOT on emp_info = EOT.id
+-- where EOT.salary < (select EOT.salary from emp_table 
+-- inner join emp_info_table EOT on emp_info = EOT.id
+-- where emp_id = emp.immediate_head_id
+-- and emp.emp_id in (select emp_id from emp_table aemp
+-- where aemp.emp_id in (
+-- select EOT.id from emp_off_table EOT
+-- inner join office_table OT on EOT.off_id = OT.off_id where OT.place = "madhapur"
+-- )))
 
 
 
